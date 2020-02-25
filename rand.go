@@ -6,7 +6,12 @@ import (
 )
 
 // Really rough detection of the sandbox's fake time
-var insideSandbox = time.Now().Unix() < 1257900000
+var initTime = time.Now()
+
+func insideSandbox() bool {
+	return initTime < 1582660000 // if in the past, then sandbox
+}
+
 var defaultRand = New(NewSource(1))
 
 // ExpFloat64 is a drop-in replacement for rand.ExpFloat64
