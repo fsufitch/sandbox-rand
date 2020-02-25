@@ -29,3 +29,5 @@ func main() {
 }
 
 ```
+
+See live at: https://play.golang.org/p/Wn2JigjJFr_s
