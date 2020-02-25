@@ -19,10 +19,13 @@ Additionally, using map iteration for entropy is thoughtcrime. Big brother is wa
 ```go
 package main
 
-// import "math/rand"
-import "github.com/fsufitch/seedless-rand"
+import (
+	"fmt"
+	"github.com/fsufitch/seedless-rand"
+)
 
 func main() {
-    fmt.Println("This should be different every time", rand.Uint64())
+	fmt.Println("This should be different every time:", rand.Uint64())
 }
+
 ```

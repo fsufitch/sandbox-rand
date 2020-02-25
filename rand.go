@@ -5,19 +5,15 @@ import (
 	"time"
 )
 
-// Really rough detection of the sandbox's fake time
-var initTime = time.Now()
+// Really rough detection of the sandbox's fake time; if in the past, then sandbox
+var insideSandbox = time.Now().Unix() < 1582660000
 
-func insideSandbox() bool {
-	return initTime < 1582660000 // if in the past, then sandbox
-}
-
-var defaultRand = New(NewSource(1))
+var sandboxRand = New(NewSeededSource())
 
 // ExpFloat64 is a drop-in replacement for rand.ExpFloat64
 func ExpFloat64() float64 {
 	if insideSandbox {
-		return defaultRand.ExpFloat64()
+		return sandboxRand.ExpFloat64()
 	}
 	return rand.ExpFloat64()
 }
@@ -25,7 +21,7 @@ func ExpFloat64() float64 {
 // Float32 is a drop-in replacement for rand.Float32
 func Float32() float32 {
 	if insideSandbox {
-		return defaultRand.Float32()
+		return sandboxRand.Float32()
 	}
 	return rand.Float32()
 }
@@ -33,7 +29,7 @@ func Float32() float32 {
 // Float64 is a drop-in replacement for rand.Float64
 func Float64() float64 {
 	if insideSandbox {
-		return defaultRand.Float64()
+		return sandboxRand.Float64()
 	}
 	return rand.Float64()
 }
@@ -41,7 +37,7 @@ func Float64() float64 {
 // Int is a drop-in replacement for rand.Int
 func Int() int {
 	if insideSandbox {
-		return defaultRand.Int()
+		return sandboxRand.Int()
 	}
 	return rand.Int()
 }
@@ -49,7 +45,7 @@ func Int() int {
 // Int31 is a drop-in replacement for rand.Int31
 func Int31() int32 {
 	if insideSandbox {
-		return defaultRand.Int31()
+		return sandboxRand.Int31()
 	}
 	return rand.Int31()
 }
@@ -57,7 +53,7 @@ func Int31() int32 {
 // Int31n is a drop-in replacement for rand.Int31n
 func Int31n(n int32) int32 {
 	if insideSandbox {
-		return defaultRand.Int31n(n)
+		return sandboxRand.Int31n(n)
 	}
 	return rand.Int31n(n)
 }
@@ -65,7 +61,7 @@ func Int31n(n int32) int32 {
 // Int63 is a drop-in replacement for rand.Int63
 func Int63() int64 {
 	if insideSandbox {
-		return defaultRand.Int63()
+		return sandboxRand.Int63()
 	}
 	return rand.Int63()
 }
@@ -73,7 +69,7 @@ func Int63() int64 {
 // Int63n is a drop-in replacement for rand.Int63n
 func Int63n(n int64) int64 {
 	if insideSandbox {
-		return defaultRand.Int63n(n)
+		return sandboxRand.Int63n(n)
 	}
 	return rand.Int63n(n)
 }
@@ -81,7 +77,7 @@ func Int63n(n int64) int64 {
 // Intn is a drop-in replacement for rand.Intn
 func Intn(n int) int {
 	if insideSandbox {
-		return defaultRand.Intn(n)
+		return sandboxRand.Intn(n)
 	}
 	return rand.Intn(n)
 }
@@ -89,7 +85,7 @@ func Intn(n int) int {
 // NormFloat64 is a drop-in replacement for rand.NormFloat64
 func NormFloat64() float64 {
 	if insideSandbox {
-		return defaultRand.NormFloat64()
+		return sandboxRand.NormFloat64()
 	}
 	return rand.NormFloat64()
 }
@@ -97,7 +93,7 @@ func NormFloat64() float64 {
 // Perm is a drop-in replacement for rand.Perm
 func Perm(n int) []int {
 	if insideSandbox {
-		return defaultRand.Perm(n)
+		return sandboxRand.Perm(n)
 	}
 	return rand.Perm(n)
 }
@@ -105,7 +101,7 @@ func Perm(n int) []int {
 // Read is a drop-in replacement for rand.Read
 func Read(p []byte) (int, error) {
 	if insideSandbox {
-		return defaultRand.Read(p)
+		return sandboxRand.Read(p)
 	}
 	return rand.Read(p)
 }
@@ -113,7 +109,7 @@ func Read(p []byte) (int, error) {
 // Seed is a drop-in replacement for rand.Seed
 func Seed(seed int64) {
 	if insideSandbox {
-		defaultRand.Seed(seed)
+		sandboxRand.Seed(seed)
 		return
 	}
 	rand.Seed(seed)
@@ -122,7 +118,7 @@ func Seed(seed int64) {
 // Shuffle is a drop-in replacement for rand.Shuffle
 func Shuffle(n int, swap func(i, j int)) {
 	if insideSandbox {
-		defaultRand.Shuffle(n, swap)
+		sandboxRand.Shuffle(n, swap)
 	}
 	rand.Shuffle(n, swap)
 }
@@ -130,7 +126,7 @@ func Shuffle(n int, swap func(i, j int)) {
 // Uint32 is a drop-in replacement for rand.Uint32
 func Uint32() uint32 {
 	if insideSandbox {
-		return defaultRand.Uint32()
+		return sandboxRand.Uint32()
 	}
 	return rand.Uint32()
 }
@@ -138,7 +134,7 @@ func Uint32() uint32 {
 // Uint64 is a drop-in replacement for rand.Uint64
 func Uint64() uint64 {
 	if insideSandbox {
-		return defaultRand.Uint64()
+		return sandboxRand.Uint64()
 	}
 	return rand.Uint64()
 }
