@@ -7,17 +7,18 @@ type selectSource struct{}
 
 // Uint64 generates a "random" number [0..2**64) using "random" select mechanism
 // More here: https://golang.org/ref/spec#Select_statements
-func (s selectSource) Uint64() uint64 {
-	var result uint64
-	ch := make(chan uint64, 1)
+func (s selectSource) Uint64() (x uint64) {
+	ch := make(chan struct{})
+	close(ch)
 	for i := 0; i < 64; i++ {
 		select {
-		case ch <- 0:
-		case ch <- 1:
+		case <-ch:
+			x = x<<1 | 1
+		case <-ch:
+			x = x<<1 | 0
 		}
-		result = (result << 1) | <-ch
 	}
-	return result
+	return
 }
 
 // Int63 generates a "random" number [0..2**63)
