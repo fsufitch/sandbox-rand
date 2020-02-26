@@ -6,7 +6,7 @@ This package is a way to seed Go's math/rand in the Go Sandbox (https://play.gol
 
 - `rand.NewSeedlessSource()` - create an object implementing `rand.Source64` that uses entropy from competing cases in a select statement; this provides a poor man's pseudo-RNG in the sandbox, where time and OS entropy sources are unavailable. Note, as this source is seedless, it **will** panic if `.Seed(...)` is called on it.
 - `rand.NewSeededSource()` - create a `rand.Source` with the original `math/rand` logic, but a seed sourced from select competition. Safe to re-seed.
-- Drop-in replacements for all `math/rand` global functions that delegate to an iteration-seeded source if in the Go Sandbox.
+- Drop-in replacements for all `math/rand` global functions that delegate to a pre-seeded source if in the Go Sandbox.
 
 The mechanism of using competing cases in a select is [documented within the Go spec](https://golang.org/ref/spec#Select_statements).
 
